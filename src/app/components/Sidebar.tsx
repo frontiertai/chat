@@ -1,5 +1,24 @@
-import React from "react"
+
+import { collection, orderBy, query } from "firebase/firestore";
+import { db } from "../../../firebase";
+import React, { useEffect } from "react"
+import { MdLogout } from "react-icons/md";
 const Sidebar=() =>{
+
+
+    useEffect(() =>{
+
+        const fetchRooms=async()=>{
+            const rommCollectionRef=collection(db,"rooms");
+            const q=query(rommCollectionRef,orderBy("created_at"));
+
+        };
+
+        fetchRooms();
+
+    },[]);
+
+
     return (
     <div className=" bg-blue-700 h-full overflow-y-auto px-5 flex flex-col">Sidebar
          <div className="flex-grow">
@@ -12,6 +31,13 @@ const Sidebar=() =>{
                 Room1 
             </li>
             </ul>
+         </div>
+
+         <div className="  flex items-center justify-evenly mb-2 cursor-pointer p-4 texted-text-slate-100 hover:bg-slate-600 duration 150"> 
+            <MdLogout />
+
+            <span>ログアウト</span>
+
          </div>
 
 
