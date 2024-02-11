@@ -1,20 +1,40 @@
-
-import { collection, orderBy, query } from "firebase/firestore";
+"use client";
+import { Timestamp, collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { MdLogout } from "react-icons/md";
+type Room={
+    id:string;
+    name:string;
+    created_at:Timestamp;
+}
 const Sidebar=() =>{
 
-
+    const[rooms,setRooms]=useState<Room[]>([]);
     useEffect(() =>{
 
         const fetchRooms=async()=>{
-            const rommCollectionRef=collection(db,"rooms");
-            const q=query(rommCollectionRef,orderBy("created_at"));
+            const roomCollectionRef=collection(db,"rooms");
+            const q=query(roomCollectionRef,orderBy("created_at"));
+            const unsubscribe=onSnapshot(q,(snapshot)=>{
+                const newRooms: Room[]=snapshot.docs.map((doc)=>({
+                    id: doc.id,
+                    name:doc.data().name,
+                    created_at:doc.data().created_at,
+
+                }));
+                setRooms(newRooms);
+            });
+
+            return()=>{
+                unsubscribe();
+            };
 
         };
 
         fetchRooms();
+
+
 
     },[]);
 
@@ -27,9 +47,15 @@ const Sidebar=() =>{
                 <h1 className="text-white txed-x1 font-semibold p-4"> New Chat</h1>
             </div>
             <ul>
-            <li className=" cursor-pointer border-b p-4 text-slate-100 hover:bg-slate-800 duration-150 ">
-                Room1 
-            </li>
+                {rooms.map((room)=>(
+                    <li
+                    key={room.id}
+                    className="cursor-pointer border-b p-4 text-slate-100 hover:bg-slate-800 duration-150"
+                >
+                    {room.name}
+                </li>
+
+              ))}
             </ul>
          </div>
 
