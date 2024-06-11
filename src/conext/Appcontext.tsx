@@ -1,5 +1,6 @@
+"use client"
 import { User, onAuthStateChanged } from "firebase/auth";
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../firebase";
 
 type AppProviderProps={
@@ -7,11 +8,13 @@ type AppProviderProps={
 };
 
 type AppcontextType={
-    user:User|null,
-    userId:string|null,
-    setUser:React.Dispatch<React.SetStateAction<User|null>>,
-    selectedRoom:string|null,
-    setSelectedRoom:React.Dispatch<React.SetStateAction<string|null>>,
+    user:User|null;
+    userId:string|null;
+    setUser:React.Dispatch<React.SetStateAction<User|null>>;
+    selectedRoom:string |null;
+    setSelectedRoom:React.Dispatch<React.SetStateAction<string|null>>;
+    selectRoomName:string |null;
+    setSeletRoomName:React.Dispatch<React.SetStateAction<string|null>>,
 
 };
 
@@ -21,15 +24,20 @@ const defaultContextData={
     setUser:()=>{},
     selectedRoom:null,
     setSelectedRoom:()=>{},
+    selectRoomName:null,
+    setSeletRoomName:()=>{},
 };
 
 const Appcontext=createContext<AppcontextType>(defaultContextData);
 
+
 export function AppProvider({children}:AppProviderProps){
 
     const[user,setUser]=useState<User |null>(null);
-    const[userId,setUserId]=useState<any |null>(null);
-    const[selectedRoom,setSelectedRoom]=useState<any |null>(null);
+    const[userId,setUserId]=useState<string |null>(null);
+    const[selectedRoom,setSelectedRoom]=useState<string |null>(null);
+    const[selectRoomName,setSeletRoomName]=useState<string |null>(null);
+
 
     useEffect(()=>{
         const unsubscribe=onAuthStateChanged(auth,(newUser)=>{
@@ -42,6 +50,9 @@ export function AppProvider({children}:AppProviderProps){
     },[]);
 
     return (
-        <Appcontext.Provider value={{user,userId,setUser,selectedRoom,setSelectedRoom}}>{children}</Appcontext.Provider>
+        <Appcontext.Provider value={{user,userId,setUser,selectedRoom,setSelectedRoom,selectRoomName,setSeletRoomName}}>{children}</Appcontext.Provider>
     );
+}
+export function useAppContext(){
+    return useContext(Appcontext);
 }

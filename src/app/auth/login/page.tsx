@@ -4,7 +4,7 @@ import React from "react";
 import {useForm,SubmitHandler} from "react-hook-form";
 import { auth } from "../../../../firebase";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth/cordova";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 
 
@@ -12,7 +12,7 @@ type Inputs={
     email:string;
     password: string;
 };
-const login = ()=>{
+const Login = ()=>{
     const router =useRouter();
 
     const{
@@ -47,7 +47,7 @@ const login = ()=>{
         <div className="h-screem flex flex-col items-center justify-center">
             <form 
                 onSubmit={handleSubmit(onSubmit)}
-                 className=" bg-white p-8 rounded-1g shadow-md w-96">
+                 className=" bg-white p-8 rounded-1g shadow-md  w-96">
                 <h1 className="mb-4 text -2x1 text-gray-700 font-medium">ログイン</h1>
 
                 <div className="mb-4">
@@ -98,4 +98,4 @@ const login = ()=>{
     );
 };
 
-export default login;
+export default Login;
