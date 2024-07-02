@@ -37,4 +37,4 @@ next-env.d.ts
 
 #.gitignore
 .env
-/firebase.ts
+firebase.ts
