@@ -6,7 +6,7 @@ import {getAuth} from "firebase/auth";
 
 //エンブファイルで見えないように
 const firebaseConfig = {
-  apiKey: "AIzaSyDV58eTuVcfgroTfpLquT4LylqQTEWVxUk",
+  apiKey:process.env.NEXT_PUBLIC_API_KEY,
   authDomain: "chatapplication-63973.firebaseapp.com",
   projectId: "chatapplication-63973",
   storageBucket: "chatapplication-63973.appspot.com",
