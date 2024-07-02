@@ -38,4 +38,4 @@ next-env.d.ts
 
 #.gitignore
 .env
-/firebase.ts/*
+/Users/frontier_tai/Desktop/Nextjs/chat/firebase.ts
